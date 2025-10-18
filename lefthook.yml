@@ -1,0 +1,25 @@
+pre-commit:
+  jobs:
+    - run: pnpm dlx ultracite fix
+      glob:
+        - "*.js"
+        - "*.jsx"
+        - "*.ts"
+        - "*.tsx"
+        - "*.json"
+        - "*.jsonc"
+        - "*.css"
+      stage_fixed: true
+    - run: tsc --noEmit
+      glob: "*.{ts,tsx}"
+
+commit-msg:
+  commands:
+    commitlint:
+      run: pnpm dlx commitlint --edit {1}
+
+prepare-commit-msg:
+  commands:
+    commitizen:
+      interactive: true
+      run: pnpm exec cz --hook || true
